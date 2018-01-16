@@ -1,0 +1,276 @@
+// Reflex Containers
+// -----------------
+.#{$reflex-prefix}container,
+.#{$reflex-prefix}container-full {
+  @include box-sizing(border-box);
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding: ((map-get($reflex-grid-spacing, 'base')) * 2);
+
+  .#{$reflex-prefix}grid {
+    margin-right: -(map-get($reflex-grid-spacing, 'base'));
+    margin-left: -(map-get($reflex-grid-spacing, 'base'));
+  }
+}
+
+@each $breakpoint in map-keys($breakpoints) {
+  @include media-breakpoint-up($breakpoint) {
+    $spacing-value: map-get($reflex-grid-spacing, $breakpoint);
+
+    .#{$reflex-prefix}container,
+    .#{$reflex-prefix}container-full {
+      padding: ($spacing-value * 2);
+
+      .#{$reflex-prefix}grid {
+        margin-right: -($spacing-value);
+        margin-left: -($spacing-value);
+      }
+    }
+  }
+}
+
+.#{$reflex-prefix}container {
+  @media (min-width: map-get($breakpoints, 'phone-sm')) {
+    max-width: map-get($breakpoints, 'phone-sm');
+  }
+
+  @media (min-width: map-get($breakpoints, 'phone')) {
+    max-width: map-get($breakpoints, 'phone');
+  }
+
+  @media (min-width: map-get($breakpoints, 'phone-lg')) {
+    max-width: map-get($breakpoints, 'phone-lg');
+  }
+
+  @media (min-width: map-get($breakpoints, 'tablet-sm')) {
+    max-width: map-get($breakpoints, 'tablet-sm');
+  }
+
+  @media (min-width: map-get($breakpoints, 'tablet')) {
+    max-width: map-get($breakpoints, 'tablet');
+  }
+
+  @media (min-width: map-get($breakpoints, 'tablet-lg')) {
+    max-width: map-get($breakpoints, 'tablet-lg');
+  }
+
+  @media (min-width: map-get($breakpoints, 'desktop-sm')) {
+    max-width: map-get($breakpoints, 'desktop-sm');
+  }
+
+  @media (min-width: map-get($breakpoints, 'desktop')) {
+    max-width: map-get($breakpoints, 'desktop');
+  }
+
+  @media (min-width: map-get($breakpoints, 'desktop-lg')) {
+    max-width: map-get($breakpoints, 'desktop-lg');
+  }
+}
+
+// Reflex Grid
+// -----------
+.#{$reflex-prefix}grid {
+  @include box-sizing(border-box);
+  display: block;
+  @include display-flex();
+  @include flex-wrap();
+  padding: 0;
+  margin: 0 auto;
+  position: relative;
+  @include setup-whitespace();
+
+  &::before,
+  &::after {
+    @include box-sizing(border-box);
+    @include reset-whitespace();
+  }
+
+  // handle when lists are used as a grid
+  list-style-type: none;
+}
+
+// Reflex Column Defaults
+// ----------------------
+[class^="#{$reflex-prefix}col-"] {
+  @include box-sizing(border-box);
+  @include reset-whitespace();
+  position: relative;
+  width: 100%;
+  vertical-align: top;
+  padding: map-get($reflex-grid-spacing, 'base');
+
+  &::before,
+  &::after {
+    @include box-sizing(border-box);
+    @include reset-whitespace();
+  }
+
+  // handle grids nested in columns
+  .#{$reflex-prefix}grid {
+    @include flex(1, 1, auto);
+    margin: -(map-get($reflex-grid-spacing, 'base'));
+  }
+
+  @if $legacy-support == true {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+  }
+}
+
+@each $breakpoint in map-keys($breakpoints) {
+  @include media-breakpoint-up($breakpoint) {
+    $spacing-value: map-get($reflex-grid-spacing, $breakpoint);
+
+    [class^="#{$reflex-prefix}col-"] {
+      padding: $spacing-value;
+
+      // handle grids nested in columns
+      .#{$reflex-prefix}grid {
+        @include flex(1, 1, auto);
+        margin: -($spacing-value);
+      }
+    }
+  }
+}
+
+// Reflex Grid Generation
+// ----------------------
+@include make-reflex-grid(col-);
+
+@media (min-width: map-get($breakpoints, 'phone-sm')) {
+  @include make-reflex-grid(col-p1-);
+}
+
+@media (min-width: map-get($breakpoints, 'phone')) {
+  @include make-reflex-grid(col-p2-);
+}
+
+@media (min-width: map-get($breakpoints, 'phone-lg')) {
+  @include make-reflex-grid(col-p3-);
+}
+
+@media (min-width: map-get($breakpoints, 'tablet-sm')) {
+  @include make-reflex-grid(col-t1-);
+}
+
+@media (min-width: map-get($breakpoints, 'tablet')) {
+  @include make-reflex-grid(col-t2-);
+}
+
+@media (min-width: map-get($breakpoints, 'tablet-lg')) {
+  @include make-reflex-grid(col-t3-);
+}
+
+@media (min-width: map-get($breakpoints, 'desktop-sm')) {
+  @include make-reflex-grid(col-d1-);
+}
+
+@media (min-width: map-get($breakpoints, 'desktop')) {
+  @include make-reflex-grid(col-d2-);
+}
+
+@media (min-width: map-get($breakpoints, 'desktop-lg')) {
+  @include make-reflex-grid(col-d3-);
+}
+
+// Reflex Column Auto
+// ------------------
+.#{$reflex-prefix}col-auto {
+  @include setup-auto-cols();
+}
+
+@media (min-width: map-get($breakpoints, 'phone-sm')) {
+  .#{$reflex-prefix}col-p1-auto {
+    @include setup-auto-cols();
+  }
+}
+
+@media (min-width: map-get($breakpoints, 'phone')) {
+  .#{$reflex-prefix}col-p2-auto {
+    @include setup-auto-cols();
+  }
+}
+
+@media (min-width: map-get($breakpoints, 'phone-lg')) {
+  .#{$reflex-prefix}col-p3-auto {
+    @include setup-auto-cols();
+  }
+}
+
+@media (min-width: map-get($breakpoints, 'tablet-sm')) {
+  .#{$reflex-prefix}col-t1-auto {
+    @include setup-auto-cols();
+  }
+}
+
+@media (min-width: map-get($breakpoints, 'tablet')) {
+  .#{$reflex-prefix}col-t2-auto {
+    @include setup-auto-cols();
+  }
+}
+
+@media (min-width: map-get($breakpoints, 'tablet-lg')) {
+  .#{$reflex-prefix}col-t3-auto {
+    @include setup-auto-cols();
+  }
+}
+
+@media (min-width: map-get($breakpoints, 'desktop-sm')) {
+  .#{$reflex-prefix}col-d1-auto {
+    @include setup-auto-cols();
+  }
+}
+
+@media (min-width: map-get($breakpoints, 'desktop')) {
+  .#{$reflex-prefix}col-d2-auto {
+    @include setup-auto-cols();
+  }
+}
+
+@media (min-width: map-get($breakpoints, 'desktop-lg')) {
+  .#{$reflex-prefix}col-d3-auto {
+    @include setup-auto-cols();
+  }
+}
+
+// Reflex Order Helpers Generation
+// -------------------------------
+@include make-order-helpers();
+
+@media only screen and (min-width: map-get($breakpoints, 'phone-sm')) {
+  @include loop-order-helpers($reflex-columns, '-p1');
+}
+
+@media only screen and (min-width: map-get($breakpoints, 'phone')) {
+  @include loop-order-helpers($reflex-columns, '-p2');
+}
+
+@media only screen and (min-width: map-get($breakpoints, 'phone-lg')) {
+  @include loop-order-helpers($reflex-columns, '-p3');
+}
+
+@media only screen and (min-width: map-get($breakpoints, 'tablet-sm')) {
+  @include loop-order-helpers($reflex-columns, '-t1');
+}
+
+@media only screen and (min-width: map-get($breakpoints, 'tablet')) {
+  @include loop-order-helpers($reflex-columns, '-t2');
+}
+
+@media only screen and (min-width: map-get($breakpoints, 'tablet-lg')) {
+  @include loop-order-helpers($reflex-columns, '-t3');
+}
+
+@media only screen and (min-width: map-get($breakpoints, 'desktop-sm')) {
+  @include loop-order-helpers($reflex-columns, '-d1');
+}
+
+@media only screen and (min-width: map-get($breakpoints, 'desktop')) {
+  @include loop-order-helpers($reflex-columns, '-d2');
+}
+
+@media only screen and (min-width: map-get($breakpoints, 'desktop-lg')) {
+  @include loop-order-helpers($reflex-columns, '-d3');
+}

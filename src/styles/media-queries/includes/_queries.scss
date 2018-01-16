@@ -1,0 +1,36 @@
+// Responsive Media Queries
+// ------------------------
+//
+// Usage:
+// @include responsive('tablet-and-up') {
+//   .foo { color: red; }
+// }
+@mixin responsive($breakpoint) {
+  @if $breakpoint == 'phone-sm-and-up' {
+    @media (min-width: map-get($breakpoints, 'phone-sm')) { @content; }
+  }
+  @else if ($breakpoint == 'phone-and-up') {
+    @media (min-width: map-get($breakpoints, 'phone')) { @content; }
+  }
+  @else if ($breakpoint == 'phone-lg-and-up') {
+    @media (min-width: map-get($breakpoints, 'phone-lg')) { @content; }
+  }
+  @else if ($breakpoint == 'tablet-sm-and-up') {
+    @media (min-width: map-get($breakpoints, 'tablet-sm')) { @content; }
+  }
+  @else if ($breakpoint == 'tablet-and-up') {
+    @media (min-width: map-get($breakpoints, 'tablet')) { @content; }
+  }
+  @else if ($breakpoint == 'tablet-lg-and-up') {
+    @media (min-width: map-get($breakpoints, 'tablet-lg')) { @content; }
+  }
+  @else if ($breakpoint == 'desktop-sm-and-up') {
+    @media (min-width: map-get($breakpoints, 'desktop-sm')) { @content; }
+  }
+  @else if ($breakpoint == 'desktop-and-up') {
+    @media (min-width: map-get($breakpoints, 'desktop')) { @content; }
+  }
+  @else if ($breakpoint == 'desktop-lg-and-up') {
+    @media (min-width: map-get($breakpoints, 'desktop-lg')) { @content; }
+  }
+}

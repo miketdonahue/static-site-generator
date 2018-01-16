@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {{#if htmlWebpackPlugin.files.favicon}}
+    <link rel="shortcut icon" href="{{htmlWebpackPlugin.files.favicon}}">
+    {{/if}}
+
+    <title>Hello, world!</title>
+
+    {{#each htmlWebpackPlugin.files.css as |file|}}
+    <link href="{{file}}" rel="stylesheet">
+    {{/each}}
+  </head>
+  <body>
+    <h1>Hello, world!</h1>
+
+    {{> @partial-block }}
+
+    {{#each htmlWebpackPlugin.files.chunks as |file|}}
+    <script src="{{file.entry}}"></script>
+    {{/each}}
+  </body>
+</html>

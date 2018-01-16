@@ -1,0 +1,54 @@
+// Responsive Fonts
+// ----------------
+
+// Static Fonts
+@each $key in $static-font-sizes {
+  $tag: nth($key, 1);
+  $properties: nth($key, 2);
+
+  .#{$font-class-prefix}-static-#{$tag} {
+    @each $property in $properties {
+      #{nth($property, 1)}: nth($property, 2);
+    }
+  }
+}
+
+ // Base Fonts
+ @include fluid-fonts-sizes('base');
+
+ // Responsive Fonts
+ @media (min-width: map-get($breakpoints, 'phone-sm')) {
+  @include fluid-fonts-sizes('phone-sm');
+}
+
+ @media (min-width: map-get($breakpoints, 'phone')) {
+  @include fluid-fonts-sizes('phone');
+}
+
+ @media (min-width: map-get($breakpoints, 'phone-lg')) {
+  @include fluid-fonts-sizes('phone-lg');
+}
+
+ @media (min-width: map-get($breakpoints, 'tablet-sm')) {
+  @include fluid-fonts-sizes('tablet-sm');
+}
+
+ @media (min-width: map-get($breakpoints, 'tablet')) {
+  @include fluid-fonts-sizes('tablet');
+}
+
+ @media (min-width: map-get($breakpoints, 'tablet-lg')) {
+  @include fluid-fonts-sizes('tablet-lg');
+}
+
+ @media (min-width: map-get($breakpoints, 'desktop-sm')) {
+  @include fluid-fonts-sizes('desktop-sm');
+}
+
+ @media (min-width: map-get($breakpoints, 'desktop')) {
+  @include fluid-fonts-sizes('desktop');
+}
+
+ @media (min-width: map-get($breakpoints, 'desktop-lg')) {
+  @include fluid-fonts-sizes('desktop-lg');
+}

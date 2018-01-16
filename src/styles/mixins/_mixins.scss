@@ -1,0 +1,107 @@
+// Functions used by Mixins
+// ------------------------
+
+// breakpoint-min
+//
+// Minimum breakpoint width. Null for the smallest (first) breakpoint.
+//
+// @param $name {String} - A breakpoint name
+// @param $breakpoints {Map} - Map of breakpoints
+// @example
+//   breakpoint-min(sm, (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px));
+//   >> 576px
+@function breakpoint-min($name, $breakpoints: $breakpoints) {
+  $min: map-get($breakpoints, $name);
+
+  @return if($min != 0, $min, null);
+}
+
+ // linear-interpolation
+ // @author Jake Wilson
+ //
+ // Calculate the definition of a line between two points
+ //
+ // @param $map {Map} - A SASS map of viewport widths and size value pairs
+ // @returns {*} - A linear equation as a calc() function
+ // @example
+ //   linear-interpolation((320px: 18px, 768px: 26px));
+ @function linear-interpolation($map) {
+  $keys: map-keys($map);
+
+  @if (length($keys) != 2) {
+    @error "linear-interpolation(): $map must be exactly 2 values";
+  }
+
+  // The slope
+  $m: (map-get($map, nth($keys, 2)) - map-get($map, nth($keys, 1)))/(nth($keys, 2) - nth($keys,1));
+
+  // The y-intercept
+  $b: map-get($map, nth($keys, 1)) - $m * nth($keys, 1);
+
+  // Determine if the sign should be positive or negative
+  $sign: "+";
+  @if ($b < 0) {
+    $sign: "-";
+    $b: abs($b);
+  }
+
+  @return calc(#{$m*100}vw #{$sign} #{$b});
+}
+
+ // Mixins
+ // --------------
+
+ // media-breakpoint-up
+ //
+ // Media of at most the maximum breakpoint width. No query for the largest breakpoint.
+ // Makes the @content apply to the given breakpoint and narrower.
+ //
+ // @param $name {String} - A breakpoint name
+ // @param $breakpoints {Map} - Map of breakpoints
+ @mixin media-breakpoint-up($name, $breakpoints: $breakpoints) {
+  $min: breakpoint-min($name, $breakpoints);
+
+  @if $min {
+    @media (min-width: $min) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+ // fluid-fonts-sizes
+ //
+ // Generate linear interpolated size values through multiple break points
+ //
+ // @param $breakpoint {String} - A name of a breakpoint
+ // @param $breakpoints {Map} - Map of breakpoints
+ // @param $responsive-font-sizes {Map} - Map of font sizes
+ @mixin fluid-fonts-sizes($breakpoint, $breakpoints: $breakpoints, $responsive-font-sizes: $responsive-font-sizes) {
+  @each $key in $responsive-font-sizes {
+    $htmlClass: nth($key, 1);
+    $properties: nth($key, 2);
+
+    .#{$font-class-prefix}-#{$htmlClass} {
+      @each $property in $properties {
+        $cssProperty: nth($property, 1);
+        $responsiveValues: nth($property, 2);
+        $index: index($responsiveValues, ($breakpoint map-get($responsiveValues, $breakpoint)));
+
+        @if ($breakpoint != 'base' and $index != length($responsiveValues)) {
+          $breakpoint-value: map-get($breakpoints, $breakpoint);
+          $breakpoint-value-next: map-get($breakpoints, nth(nth($responsiveValues, $index + 1), 1));
+
+          $map: (
+            $breakpoint-value: nth(nth($responsiveValues, $index), 2),
+            $breakpoint-value-next: nth(nth($responsiveValues, $index + 1), 2)
+          );
+
+          #{$cssProperty}: linear-interpolation($map);
+        } @else {
+          #{$cssProperty}: nth(nth($responsiveValues, $index), 2);
+        }
+      }
+    };
+  }
+}

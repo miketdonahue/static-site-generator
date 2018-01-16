@@ -1,0 +1,70 @@
+// Page Globals
+// ------------
+body {
+  font-family: $brand-font-family;
+  font-size: $base-font-size;
+  font-weight: $base-font-weight;
+  line-height: $base-line-height;
+  color: $base-font-color;
+  background-color: $body-bg-color;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+// Colors
+// ------
+.brand-blue {
+  color: $brand-blue;
+}
+
+.brand-red {
+  color: $brand-red;
+}
+
+.brand-green {
+  color: $brand-green;
+}
+
+.brand-gray {
+  color: $brand-gray;
+}
+
+.brand-black {
+  color: $brand-black;
+}
+
+// Fonts
+// -----
+.font-800 {
+  font-weight: 800;
+}
+
+.font-500 {
+  font-weight: 500;
+}
+
+// Links
+// -----
+a {
+  text-decoration: none;
+  color: $brand-green;
+
+  &:hover,
+  &:active {
+    text-decoration: underline;
+  }
+
+  &:visited {
+    color: darken($brand-green, 10%);
+  }
+}
+
+// Images
+// ------
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
