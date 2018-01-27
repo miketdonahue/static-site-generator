@@ -34,6 +34,7 @@
     "light-server": "^2.2.1",
     "markdown-it": "^8.4.0",
     "md5-file": "^3.2.3",
+    "mkdirp": "^0.5.1",
     "node-sass": "^4.7.2",
     "rimraf": "^2.6.2",
     "svgo": "^1.0.3",

@@ -11,14 +11,18 @@ module.exports = {
     path: 'src/pages',
   },
   sass: {
-    paths: ['src/pages/about', 'src/pages/index', 'src/styles'],
+    entries: {
+      styles: 'src/styles/styles.scss',
+      index: 'src/pages/index/index.scss',
+      about: 'src/pages/about/about.scss',
+    },
   },
   output: {
     path: {
       public: '/public',
-      js: '/js',
-      css: '/css',
-      images: '/images',
+      js: '/public/js',
+      css: '/public/css',
+      images: '/public/images',
     },
   },
 };

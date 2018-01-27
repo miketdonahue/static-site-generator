@@ -2,15 +2,19 @@ const cwd = process.cwd();
 const path = require('path');
 const fs = require('fs');
 const config = require('config');
+const glob = require('glob');
+const mkdirp = require('mkdirp');
 const Handlebars = require('handlebars');
 const layoutHelpers = require('handlebars-layouts');
 const formatHtml = require('js-beautify').html;
+
+const routes = JSON.parse(fs.readFileSync(path.join(cwd, 'config/routes.json'), 'utf8'));
 
 const helpersPath = config.hbs.helpersDir;
 const partialsPath = config.hbs.partialsDir;
 const publicPath = config.output.path.public;
 
-const opts = {
+const formatOpts = {
   indent_size: 2,
   end_with_newline: true,
   indent_inner_html: true,
@@ -37,27 +41,36 @@ fs.readdirSync(partialsPath).forEach((file) => {
   Handlebars.registerPartial(name, partial);
 });
 
-// Compile the templates and write to output files
-const pageDirs = fs.readdirSync(path.join(cwd, config.pages.path));
+// Find all handlebars files and get their absolute paths
+const hbsPaths = glob.sync(`${config.pages.path}/**/*.hbs`, {
+  cwd: path.join(cwd),
+  realpath: true,
+});
 
-pageDirs.forEach((dirName) => {
-  const hbsFileName = dirName;
-  const hbs = fs.readFileSync(path.join(cwd, config.pages.path, dirName, `${hbsFileName}.hbs`), 'utf8');
-  const template = Handlebars.compile(hbs);
+hbsPaths.forEach((filePath) => {
+  const splitPath = filePath.split('/');
+  const splitFilename = splitPath[splitPath.length - 1].split('.');
+  const fileName = splitFilename[0];
+  const route = routes[fileName];
+
+  // Construct hbs template
+  const hbsContent = fs.readFileSync(path.join(filePath), 'utf8');
+  const template = Handlebars.compile(hbsContent);
+
+  // Construct hbs page context
   let context;
-
   try {
-    context = require(path.join(cwd, config.pages.path, dirName, 'context.js'));
+    context = require(path.join(path.dirname(filePath), 'context.js'));
   } catch (error) {
     context = {};
   }
 
-  if (!fs.existsSync(path.join(cwd, publicPath, dirName))) {
-    if (dirName === 'index') {
-      fs.writeFileSync(path.join(cwd, publicPath, 'index.html'), formatHtml(template(context), opts));
-    } else {
-      fs.mkdirSync(path.join(cwd, publicPath, dirName));
-      fs.writeFileSync(path.join(cwd, publicPath, dirName, 'index.html'), formatHtml(template(context), opts));
-    }
-  }
+  // Create full route path if it does not already exist
+  mkdirp.sync(path.join(cwd, publicPath, route.path));
+
+  // Format and create HTML file
+  fs.writeFileSync(
+    path.join(cwd, publicPath, route.path, `${route.url}.html`),
+    formatHtml(template(context), formatOpts),
+  );
 });

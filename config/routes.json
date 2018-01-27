@@ -1,0 +1,10 @@
+{
+  "index": {
+    "path": "/",
+    "url": "index"
+  },
+  "about-us": {
+    "path": "/about",
+    "url": "about-us"
+  }
+}
