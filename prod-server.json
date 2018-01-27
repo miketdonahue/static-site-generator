@@ -1,0 +1,8 @@
+{
+  "port": 8080,
+  "bind": "localhost",
+  "serve": "public",
+  "quiet": true,
+  "open": false,
+  "http2": false
+}

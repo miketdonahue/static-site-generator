@@ -1,0 +1,15 @@
+{
+  "port": 8080,
+  "interval": 500,
+  "delay": 0,
+  "bind": "localhost",
+  "serve": "public",
+  "watchexps": [
+    "src/**/*.hbs # yarn hbs-loader && echo 'Handlebars file changed. Restarting server...'",
+    "src/**/*.scss # yarn sass-loader && echo 'Sass file changed. Restarting server...'",
+    "src/**/*.js # yarn js-loader && echo 'Javascript file changed. Restarting server...'"
+  ],
+  "quiet": false,
+  "open": false,
+  "http2": false
+}

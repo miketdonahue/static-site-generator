@@ -1,4 +1,6 @@
+$color: blue;
+
 div {
-  color: blue;
-  background-image: url("images/fish.png");
+  color: $color;
+  background-image: url("images/fish.svg");
 }

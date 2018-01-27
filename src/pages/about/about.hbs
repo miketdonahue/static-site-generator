@@ -1,6 +1,16 @@
-{{#> layout/layout}}
-<h1>About Page</h1>
-<div>This is the about page.</div>
-<img src="images/fish.png" alt="Fish">
-<a href="/">Go to home</a>
-{{/layout/layout}}
+{{#extend "layout"}}
+  {{#content "page_css"}}
+    <link rel="stylesheet" href="{{css "about"}}" />
+  {{~/content}}
+
+  {{#content "body"}}
+    <h1>About Page</h1>
+    <div>This is the about page.</div>
+    <img src="{{image 'images/fish.svg'}}" alt="Fish">
+    <a href="/">Go to home</a>
+  {{~/content}}
+
+  {{#content "page_js"}}
+    <script src="{{js "about"}}"></script>
+  {{~/content}}
+{{/extend}}

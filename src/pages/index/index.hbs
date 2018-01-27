@@ -1,0 +1,19 @@
+{{#extend "layout"}}
+  {{#content "page_css"}}
+    <link rel="stylesheet" href="{{css "index"}}" />
+  {{~/content}}
+
+  {{#content "body"}}
+    <h1>Home Page</h1>
+    <div>This is the home page.</div>
+    <div>My name is Mike Hue</div>
+    <img src="{{image 'images/dog.svg'}}" alt="Dog">
+    <a href="/about">Go to about page</a>
+
+    {{{markdown}}}
+  {{~/content}}
+
+  {{#content "page_js"}}
+    <script src="{{js "index"}}"></script>
+  {{~/content}}
+{{/extend}}
