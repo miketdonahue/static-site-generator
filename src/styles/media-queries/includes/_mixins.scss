@@ -1,0 +1,21 @@
+// Responsive Media Queries
+// ------------------------
+//
+// @param $breakpoint {String} - A breakpoint name
+//
+// Usage:
+//   @include responsive('tablet-and-up') {
+//     .foo { color: red; }
+//   }
+@mixin responsive($breakpoint) {
+  @if $breakpoint == "tablet-and-up" {
+    @media (min-width: map-get($breakpoints, "tablet")) {
+      @content;
+    }
+  }
+  @else if ($breakpoint == "desktop-and-up") {
+    @media (min-width: map-get($breakpoints, "desktop")) {
+      @content;
+    }
+  }
+}

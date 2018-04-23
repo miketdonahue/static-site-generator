@@ -1,0 +1,43 @@
+// Fluid Font Sizes
+// ----------------
+//
+// Generate linear interpolated size values through multiple break points
+//
+// @param $breakpoint {String} - A name of a breakpoint
+// @param $breakpoints {Map} - Map of breakpoints
+// @param $responsive-font-sizes {Map} - Map of font sizes
+//
+// Usage:
+//  @include fluid-font-sizes('tablet')
+ @mixin fluid-fonts-sizes(
+   $breakpoint,
+   $breakpoints: $breakpoints,
+   $responsive-font-sizes: $responsive-font-sizes
+) {
+  @each $key in $responsive-font-sizes {
+    $htmlClass: nth($key, 1);
+    $properties: nth($key, 2);
+
+    .#{$font-class-prefix}-#{$htmlClass} {
+      @each $property in $properties {
+        $cssProperty: nth($property, 1);
+        $responsiveValues: nth($property, 2);
+        $index: index($responsiveValues, ($breakpoint map-get($responsiveValues, $breakpoint)));
+
+        @if ($breakpoint != 'base' and $index != length($responsiveValues)) {
+          $breakpoint-value: map-get($breakpoints, $breakpoint);
+          $breakpoint-value-next: map-get($breakpoints, nth(nth($responsiveValues, $index + 1), 1));
+
+          $map: (
+            $breakpoint-value: nth(nth($responsiveValues, $index), 2),
+            $breakpoint-value-next: nth(nth($responsiveValues, $index + 1), 2)
+          );
+
+          #{$cssProperty}: linear-interpolation($map);
+        } @else {
+          #{$cssProperty}: nth(nth($responsiveValues, $index), 2);
+        }
+      }
+    };
+  }
+}

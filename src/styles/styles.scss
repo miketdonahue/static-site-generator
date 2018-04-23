@@ -5,11 +5,9 @@
 @import "settings/settings";
 
 // Packages
-@import "mixins/mixins";
-@import "theme";
-@import "grid/grid";
-@import "fonts/fonts";
 @import "media-queries/media-queries";
+@import "fonts/fonts";
+@import "theme";
 
 // Utilities
 @import "utilities/utilities";
