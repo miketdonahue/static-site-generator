@@ -1,4 +1,14 @@
+@import "styles.scss";
+
 div {
   color: purple;
   background-image: url("images/dog.svg");
+}
+
+.grid {
+  @include grid((
+    columns: 12,
+    rows: 2,
+    grid-gap: 10px
+  ));
 }

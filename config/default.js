@@ -12,7 +12,6 @@ module.exports = {
   },
   sass: {
     entries: {
-      styles: 'src/styles/styles.scss',
       index: 'src/pages/index/index.scss',
       about: 'src/pages/about/about.scss',
     },

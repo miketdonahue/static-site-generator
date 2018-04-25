@@ -1,0 +1,122 @@
+// Given a value for a column or row, sets property to X frs
+//
+// @param $grid-gap {CSS Value} - A single number with units
+//
+// Usage:
+//   @include grid-gap-fallback(10px);
+@mixin grid-gap-fallback($grid-gap) {
+  @if $grid-gap > 0 {
+    > div {
+      margin: 0 ($grid-gap / 2);
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      @supports (grid-column-gap: $grid-gap) {
+        margin: 0;
+      }
+    }
+  }
+}
+
+// Given a position for justify-items, sets IE fallback property on child divs
+//
+// @param $position {CSS Value} - A valid value for the justify-items property
+//
+// Usage:
+//   @include justify-items-fallback(center);
+@mixin justify-items-fallback($position) {
+  > div {
+    -ms-grid-column-align: $position;
+  }
+}
+
+// Given a position for align-items, sets IE fallback property on child divs
+//
+// @param $position {CSS Value} - A valid value for the align-items property
+//
+// Usage:
+//   @include align-items-fallback(center);
+@mixin align-items-fallback($position) {
+  > div {
+    -ms-grid-row-align: $position;
+  }
+}
+
+// Given start and end points, sets the grid column for a child
+//
+// @param $start {Number} - Starting column position
+// @param $end {Number} - Ending column position
+//
+// Usage:
+//   @include grid-column(1, 4);
+@mixin grid-column($start, $end) {
+  grid-column: #{$start} / #{$end};
+  -ms-grid-column: $start;
+  -ms-grid-column-span: $end - $start;
+}
+
+// Given start and end points, sets the grid row for a child
+//
+// @param $start {Number} - Starting row position
+// @param $end {Number} - Ending row position
+//
+// Usage:
+//   @include grid-row(1, 1);
+@mixin grid-row($start, $end) {
+  grid-row: #{$start} / #{$end};;
+  -ms-grid-row: $start;
+  -ms-grid-row-span: $end - $start;
+}
+
+// Given a map of grid options, produces a CSS Grid
+//
+// @param $options {Map} - A map of grid options
+// @param $options.columns {Number|CSS Values} - A single number or set of valid grid column values
+// @param $options.rows {Number|CSS Values} - A single number or set of valid grid row values
+// @param $options.grid-gap {CSS Value} - A single, valid grid-gap value
+// @param $options.justify-items {CSS Value} - A valid grid justify-items position value
+// @param $options.align-items {CSS Value} - A valid grid align-items position value
+// @param $options.inline {Boolean} - Set to true to create an inline-grid
+//
+// Usage:
+//   @include grid((
+//     columns: 12,
+//     rows: 4,
+//     grid-gap: 10px
+//   ));
+@mixin grid($options) {
+  $columns: map-get($options, 'columns');
+  $rows: map-get($options, 'rows');
+  $grid-gap: map-get($options, 'grid-gap');
+  $justify-items: map-get($options, 'justify-items');
+  $align-items: map-get($options, 'align-items');
+  $inline: map-get($options, 'inline');
+
+  @if ($inline) {
+    display: -ms-inline-grid;
+    display: inline-grid;
+  } @else {
+    display: -ms-grid;
+    display: grid;
+  }
+
+  grid-template-columns: get-grid-values($columns);
+  -ms-grid-columns: get-grid-values($columns);
+  grid-template-rows: get-grid-values($rows);
+  -ms-grid-rows: get-grid-values($rows);
+
+  grid-column-gap: $grid-gap;
+  @include grid-gap-fallback($grid-gap);
+
+  justify-items: $justify-items or stretch;
+  @include justify-items-fallback($justify-items);
+
+  align-items: $align-items or stretch;
+  @include align-items-fallback($align-items);
+}

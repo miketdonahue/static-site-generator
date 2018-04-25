@@ -30,6 +30,7 @@ Object.keys(entries).forEach((entryKey) => {
     file: path.join(cwd, sassFilePath),
     outFile: path.join(cwd, config.output.path.css, `${fileHash}.css`),
     outputStyle: config.isProd ? 'compressed' : 'nested',
+    includePaths: ['src/styles'],
     sourceComments: !config.isProd,
     sourceMap: !config.isProd,
   });
