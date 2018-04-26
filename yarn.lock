@@ -2396,6 +2396,10 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
+"jumpstart-css@https://github.com/sidewalksalsa/jumpstart-css.git":
+  version "1.0.0"
+  resolved "https://github.com/sidewalksalsa/jumpstart-css.git#b821cbd701944c946c854464a79c2549aa0ff76e"
+
 kind-of@^3.0.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-3.2.2.tgz#31ea21a734bab9bbb0f32466d893aea51e4a3c64"

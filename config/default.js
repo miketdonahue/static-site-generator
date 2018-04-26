@@ -12,6 +12,7 @@ module.exports = {
   },
   sass: {
     entries: {
+      styles: 'node_modules/jumpstart-css/styles.scss',
       index: 'src/pages/index/index.scss',
       about: 'src/pages/about/about.scss',
     },
